@@ -26,15 +26,15 @@ const WORK_DATA = [
     type: "work",
     title: "Nova LTD",
     description: "Software Engineer",
-    toDate: new Date(2017, 0o1, 0o1),
-    fromDate: new Date(2019, 0o1, 0o1),
+    toDate: new Date(2019, 0o1, 0o1),
+    fromDate: new Date(2017, 0o1, 0o1),
   },
   {
     type: "work",
     title: "CyberGaTE, Edge Hill University",
     description: "Game Developer",
-    toDate: new Date(2015, 0o1, 0o1),
-    fromDate: new Date(2017, 0o1, 0o1),
+    toDate: new Date(2017, 0o1, 0o1),
+    fromDate: new Date(2015, 0o1, 0o1),
   },
 ];
 
