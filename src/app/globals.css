@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light mode variables */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.1 0.01 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.1 0.01 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1 0.01 240);
+  --primary: oklch(0.53 0.2 221.2);
+  --primary-foreground: oklch(0.98 0.005 210);
+  --secondary: oklch(0.96 0.01 210);
+  --secondary-foreground: oklch(0.11 0.09 222.2);
+  --muted: oklch(0.96 0.01 210);
+  --muted-foreground: oklch(0.47 0.04 215.4);
+  --accent: oklch(0.96 0.01 210);
+  --accent-foreground: oklch(0.11 0.09 222.2);
+  --destructive: oklch(0.6 0.2 0);
+  --destructive-foreground: oklch(0.98 0.005 210);
+  --border: oklch(0.91 0.02 214.3);
+  --input: oklch(0.91 0.02 214.3);
+  --ring: oklch(0.53 0.2 221.2);
+  --radius: 0.5rem;
+}
+
+/* Dark mode theme */
+@theme dark {
+  --background: oklch(0.1 0.01 240);
+  --foreground: oklch(0.98 0.005 0);
+  --card: oklch(0.1 0.01 240);
+  --card-foreground: oklch(0.98 0.005 0);
+  --popover: oklch(0.1 0.01 240);
+  --popover-foreground: oklch(0.98 0.005 0);
+  --primary: oklch(0.6 0.22 217.2);
+  --primary-foreground: oklch(0.11 0.09 222.2);
+  --secondary: oklch(0.18 0.06 217.2);
+  --secondary-foreground: oklch(0.98 0.005 210);
+  --muted: oklch(0.18 0.06 217.2);
+  --muted-foreground: oklch(0.65 0.04 215);
+  --accent: oklch(0.18 0.06 217.2);
+  --accent-foreground: oklch(0.98 0.005 210);
+  --destructive: oklch(0.31 0.15 0);
+  --destructive-foreground: oklch(0.98 0.005 210);
+  --border: oklch(0.18 0.06 217.2);
+  --input: oklch(0.18 0.06 217.2);
+  --ring: oklch(0.48 0.18 224.3);
+}
+
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  
+  body {
+    @apply bg-gray-100 dark:bg-gray-900;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors;
+}
+
+/* Animation classes */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Focus styles */
+.focus-visible:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+}
