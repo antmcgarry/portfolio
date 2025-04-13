@@ -29,14 +29,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* React 19 resource preloading for resume PDF */}
-        <link
-          rel="preload"
-          href="/resume.pdf"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-
         {/* Preload critical images */}
         <link rel="preload" href="/images/me.png" as="image" />
         <link rel="preload" href="/images/logo.png" as="image" />
