@@ -5,5 +5,5 @@ const nextConfig: NextConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
   output: "export",
 };
-console.log("nextConfig", nextConfig);
+
 export default nextConfig;
