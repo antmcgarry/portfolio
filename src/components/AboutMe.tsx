@@ -6,6 +6,8 @@ import { useRef } from "react";
 import Image from "next/image";
 import TechnicalSkills from "./TechnicalSkills";
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export default function AboutMe() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -57,7 +59,7 @@ export default function AboutMe() {
             >
               <div className="relative w-48 h-48 md:w-56 md:h-56 overflow-hidden rounded-full border-4 border-blue-500">
                 <Image
-                  src="/images/me.png"
+                  src={`${BASE_PATH}/images/me.png`}
                   alt="Anthony McGarry"
                   fill
                   sizes="(max-width: 768px) 192px, 224px"
