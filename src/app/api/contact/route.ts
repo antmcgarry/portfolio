@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       from: process.env.RESEND_FROM as string,
       to: process.env.RESEND_TO as string,
       subject: `Portfolio Contact: ${name}`,
-      replyTo: email,
+      reply_to: email,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     });
 
