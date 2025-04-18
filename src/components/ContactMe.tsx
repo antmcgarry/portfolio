@@ -1,81 +1,77 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { sendContactEmail, type ContactFormData } from "@/lib/email-service";
-import { useActionState, useOptimistic } from "react";
+import { sendContactEmail } from "@/lib/email-service";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-interface FormState {
-  type: "idle" | "submitting" | "success" | "error";
-  message: string;
-}
+// Define Zod schema for form validation
+const ContactSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email"),
+  message: z.string().min(1, "Message is required"),
+});
 
-// Define the form action using React 19's Actions
-async function submitContactForm(
-  prevState: FormState,
-  formData: FormData
-): Promise<FormState> {
-  // Extract form data
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const message = formData.get("message") as string;
+// Type for the form data based on the schema
+type ContactFormValues = z.infer<typeof ContactSchema>;
 
-  // Validation
-  if (!name || !email || !message) {
-    return {
-      type: "error",
-      message: "All fields are required",
-    };
-  }
-
-  try {
-    const contactData: ContactFormData = {
-      name,
-      email,
-      message,
-    };
-
-    // Form element is no longer needed with React Actions
-    const success = await sendContactEmail(contactData);
-
-    if (success) {
-      return {
-        type: "success",
-        message: "Message sent successfully! I&apos;ll get back to you soon.",
-      };
-    } else {
-      return {
-        type: "error",
-        message:
-          "Failed to send message. Please try again or contact me directly.",
-      };
-    }
-  } catch (error) {
-    console.error("Email sending failed:", error);
-    return {
-      type: "error",
-      message:
-        "Failed to send message. Please try again or contact me directly.",
-    };
-  }
-}
+// Form submission status types
+type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export default function ContactMe() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  // Use React 19's useActionState hook to manage form submission state
-  const [formStatus, formAction] = useActionState(submitContactForm, {
-    type: "idle",
-    message: "",
-  } as FormState);
+  // Form state management
+  const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
-  // Optimistic UI update while the form is submitting
-  const [optimisticFormState, setOptimisticFormState] = useOptimistic<
-    FormState,
-    FormState
-  >(formStatus, (state, optimisticValue) => optimisticValue);
+  // Initialize react-hook-form with Zod validation
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(ContactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  // Form submission handler
+  const onSubmit = async (data: ContactFormValues) => {
+    setFormStatus("submitting");
+    setStatusMessage("Sending your message...");
+
+    try {
+      const success = await sendContactEmail(data);
+
+      if (success) {
+        setFormStatus("success");
+        setStatusMessage(
+          "Message sent successfully! I'll get back to you soon."
+        );
+        reset(); // Reset form fields on success
+      } else {
+        setFormStatus("error");
+        setStatusMessage(
+          "Failed to send message. Please try again or contact me directly."
+        );
+      }
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      setFormStatus("error");
+      setStatusMessage(
+        "Failed to send message. Please try again or contact me directly."
+      );
+    }
+  };
 
   return (
     <section
@@ -108,14 +104,7 @@ export default function ContactMe() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            action={formAction}
-            onSubmit={() => {
-              // Optimistically update UI to show submitting state
-              setOptimisticFormState({
-                type: "submitting",
-                message: "Sending your message...",
-              });
-            }}
+            onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
           >
             <div>
@@ -125,12 +114,16 @@ export default function ContactMe() {
               <input
                 type="text"
                 id="name"
-                name="name"
-                required
+                {...register("name")}
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-md 
                        focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
                 placeholder="Your name"
               />
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
             <div>
@@ -140,12 +133,16 @@ export default function ContactMe() {
               <input
                 type="email"
                 id="email"
-                name="email"
-                required
+                {...register("email")}
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-md 
                        focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
                 placeholder="your.email@example.com"
               />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             <div>
@@ -157,24 +154,28 @@ export default function ContactMe() {
               </label>
               <textarea
                 id="message"
-                name="message"
-                required
+                {...register("message")}
                 rows={5}
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-md 
                        focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800"
                 placeholder="Your message..."
               ></textarea>
+              {errors.message && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {errors.message.message}
+                </p>
+              )}
             </div>
 
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              disabled={optimisticFormState.type === "submitting"}
+              disabled={formStatus === "submitting"}
               className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-md 
                      transition-colors font-medium flex items-center justify-center"
             >
-              {optimisticFormState.type === "submitting" ? (
+              {formStatus === "submitting" ? (
                 <>
                   <svg
                     className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
@@ -204,21 +205,21 @@ export default function ContactMe() {
             </motion.button>
 
             {/* Status message */}
-            {optimisticFormState.message && (
+            {statusMessage && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className={`p-4 rounded-md text-center ${
-                  optimisticFormState.type === "success"
+                  formStatus === "success"
                     ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
-                    : optimisticFormState.type === "error"
+                    : formStatus === "error"
                       ? "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300"
-                      : optimisticFormState.type === "submitting"
+                      : formStatus === "submitting"
                         ? "bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300"
                         : ""
                 }`}
               >
-                {optimisticFormState.message}
+                {statusMessage}
               </motion.div>
             )}
           </motion.form>
