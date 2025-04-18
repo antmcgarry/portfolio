@@ -5,6 +5,8 @@ export interface ContactFormData {
   message: string;
 }
 
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 /**
  * Sends a contact form submission through the Next.js API route
  */
@@ -12,7 +14,7 @@ export async function sendContactEmail(
   formData: ContactFormData
 ): Promise<boolean> {
   try {
-    const response = await fetch("/api/contact", {
+    const response = await fetch(`${BASE_PATH}/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
