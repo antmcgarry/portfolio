@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
-
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,7 +41,7 @@ export default function Header() {
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <Image
-            src={`${BASE_PATH}/images/logo.png`}
+            src="/images/logo.png"
             alt="Anthony McGarry"
             width={40}
             height={40}
