@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-const RESUME_URL =
-  "https://docs.google.com/document/d/1OTWeloHca8okZahpImsONczlPF6I11eT/export?format=pdf";
-
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -84,7 +81,7 @@ export default function Header() {
         {/* Right section: Theme toggle and Resume */}
         <div className="flex items-center space-x-4">
           <a
-            href={RESUME_URL}
+            href="api/resume"
             target="_blank"
             className="hidden md:block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors"
             rel="noopener noreferrer"
@@ -167,7 +164,7 @@ export default function Header() {
               Contact Me
             </button>
             <a
-              href={RESUME_URL}
+              href="api/resume"
               target="_blank"
               className="py-2 px-3 text-center bg-blue-500 hover:bg-blue-600 text-white rounded-md"
               rel="noopener noreferrer"
