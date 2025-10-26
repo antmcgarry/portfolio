@@ -39,8 +39,8 @@ export default function TechnicalSkills() {
 
   // Initialize with a function to get the correct initial value
   const [itemsPerPage, setItemsPerPage] = useState(() => {
-    if (typeof globalThis.window === "undefined") return 4;
-    const width = globalThis.window.innerWidth;
+    if (typeof window === "undefined") return 4;
+    const width = window.innerWidth;
     if (width < 640) return 2;
     if (width < 768) return 3;
     if (width < 1024) return 4;
@@ -48,7 +48,7 @@ export default function TechnicalSkills() {
   });
 
   const [windowWidth, setWindowWidth] = useState(() =>
-    typeof globalThis.window === "undefined" ? 0 : globalThis.window.innerWidth
+    typeof window === "undefined" ? 0 : window.innerWidth
   );
 
   const carouselRef = useRef(null);
