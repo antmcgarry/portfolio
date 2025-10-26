@@ -36,15 +36,25 @@ const skillsData = [
 export default function TechnicalSkills() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
-  const [itemsPerPage, setItemsPerPage] = useState(4);
-  const [windowWidth, setWindowWidth] = useState(0);
+
+  // Initialize with a function to get the correct initial value
+  const [itemsPerPage, setItemsPerPage] = useState(() => {
+    if (typeof globalThis.window === "undefined") return 4;
+    const width = globalThis.window.innerWidth;
+    if (width < 640) return 2;
+    if (width < 768) return 3;
+    if (width < 1024) return 4;
+    return 5;
+  });
+
+  const [windowWidth, setWindowWidth] = useState(() =>
+    typeof globalThis.window === "undefined" ? 0 : globalThis.window.innerWidth
+  );
+
   const carouselRef = useRef(null);
 
-  // Handle window availability for SSR
+  // Handle window resize
   useEffect(() => {
-    // Set window width once on client side
-    setWindowWidth(window.innerWidth);
-
     const handleResize = () => {
       const width = window.innerWidth;
       setWindowWidth(width);

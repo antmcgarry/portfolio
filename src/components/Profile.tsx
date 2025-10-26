@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 
@@ -18,23 +18,14 @@ type Star = {
 
 // Star animation component using standard React hooks
 const ShootingStarsBackground = () => {
-  // Use useState and useEffect instead of the experimental 'use' API
-  const [isClient, setIsClient] = useState(false);
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
   // Store stars in a ref so they persist across renders
   const starsRef = useRef<Star[]>([]);
   const animationRef = useRef<number>(0);
   const isInitializedRef = useRef(false);
 
-  // Set isClient to true when component mounts
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    // Skip this effect if we're not in a browser environment
-    if (!isClient) return;
+    // Only run in browser environment
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -155,7 +146,7 @@ const ShootingStarsBackground = () => {
       window.removeEventListener("resize", resizeCanvas);
       cancelAnimationFrame(animationRef.current);
     };
-  }, [isClient]); // Only depend on isClient
+  }, []); // Run once on mount
 
   return (
     <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-10" />
@@ -163,20 +154,8 @@ const ShootingStarsBackground = () => {
 };
 
 export default function Profile() {
-  // Use useState instead of the experimental 'use' API
-  const [canScroll, setCanScroll] = useState(false);
-
-  // Set canScroll to true when component mounts
-  useEffect(() => {
-    setCanScroll(true);
-  }, []);
-
   const handleGetInTouch = () => {
-    if (canScroll) {
-      document
-        .getElementById("contact")
-        ?.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
