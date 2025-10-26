@@ -25,8 +25,6 @@ const ShootingStarsBackground = () => {
   const isInitializedRef = useRef(false);
 
   useEffect(() => {
-    // Only run in browser environment
-
     const canvas = canvasRef.current;
     if (!canvas) return;
 
