@@ -1,8 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { useInView, motion } from "framer-motion";
 import { sendContactEmail } from "@/lib/email-service";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +10,7 @@ import { z } from "zod";
 // Define Zod schema for form validation
 const ContactSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email"),
+  email: z.email("Invalid email"),
   message: z.string().min(1, "Message is required"),
 });
 
