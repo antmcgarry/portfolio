@@ -69,7 +69,7 @@ export default function AboutMe() {
             {/* Bio column */}
             <motion.div variants={childVariants} className="md:col-span-2">
               <p className="text-lg mb-4">
-                I&apos;m a keen front-end developer with 8 years&apos;
+                I&apos;m a keen front-end developer with over 10 years&apos;
                 experience crafting modern web applications. I specialise in
                 React and TypeScript, building intuitive interfaces that provide
                 brilliant user experiences.
