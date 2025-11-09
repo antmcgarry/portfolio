@@ -182,7 +182,7 @@ export default function Profile() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-xl md:text-2xl text-blue-300 mb-6"
               >
-                Lead Front-End Developer
+                Principal Lead Front-End Developer
               </motion.h2>
 
               <motion.p
@@ -191,9 +191,9 @@ export default function Profile() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-lg mb-8 text-gray-200"
               >
-                I&apos;m a lead developer from Liverpool with 8 years of
-                professional experience. A fast learner, self-motivated and
-                problem solver.
+                I&apos;m a principal lead developer from Liverpool with over 10
+                years of professional experience. A fast learner, self-motivated
+                and problem solver.
               </motion.p>
 
               <motion.div
