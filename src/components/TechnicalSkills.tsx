@@ -7,10 +7,6 @@ import {
   SiTypescript,
   SiJavascript,
   SiNextdotjs,
-  SiExpress,
-  SiTailwindcss,
-  SiCss3,
-  SiRedux,
 } from "react-icons/si";
 import { TbApi } from "react-icons/tb";
 import { VscDebugConsole } from "react-icons/vsc";
@@ -22,34 +18,26 @@ const skillsData = [
   { name: "React Native", icon: FaMobile, color: "#61DAFB" },
   { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
   { name: "Next.js", icon: SiNextdotjs, color: "#FFFFFF" },
-  { name: "ExpressJS", icon: SiExpress, color: "#FFFFFF" },
-  { name: "NodeJS", icon: FaNodeJs, color: "#339933" },
   { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-  { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "CSS/SCSS", icon: SiCss3, color: "#1572B6" },
-  { name: "API Integration", icon: TbApi, color: "#FF6B6B" },
-  { name: "State Management", icon: SiRedux, color: "#764ABC" },
-  { name: "Testing", icon: LuTestTube, color: "#E33332" },
-  { name: "End-to-End Testing", icon: VscDebugConsole, color: "#4CAF50" },
+  { name: "Module Federation", icon: TbApi, color: "#FF6B6B" },
+  { name: "Vite", icon: VscDebugConsole, color: "#646CFF" },
+  { name: "Vitest", icon: LuTestTube, color: "#6E9F18" },
+  { name: "Playwright", icon: VscDebugConsole, color: "#4CAF50" },
+  { name: "Expo", icon: FaMobile, color: "#61DAFB" },
+  { name: "Maestro", icon: LuTestTube, color: "#E33332" },
+  { name: "Node.js", icon: FaNodeJs, color: "#339933" },
+  { name: "GraphQL", icon: TbApi, color: "#E10098" },
+  { name: "React Testing Library", icon: LuTestTube, color: "#E33332" },
+  { name: "Jest", icon: LuTestTube, color: "#C21325" },
 ];
 
 export default function TechnicalSkills() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredSkill, setHoveredSkill] = useState<number | null>(null);
 
-  // Initialize with a function to get the correct initial value
-  const [itemsPerPage, setItemsPerPage] = useState(() => {
-    if (typeof window === "undefined") return 4;
-    const width = window.innerWidth;
-    if (width < 640) return 2;
-    if (width < 768) return 3;
-    if (width < 1024) return 4;
-    return 5;
-  });
-
-  const [windowWidth, setWindowWidth] = useState(() =>
-    typeof window === "undefined" ? 0 : window.innerWidth
-  );
+  // Keep the first browser render identical to the server render.
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   const carouselRef = useRef(null);
 
@@ -58,6 +46,7 @@ export default function TechnicalSkills() {
     const handleResize = () => {
       const width = window.innerWidth;
       setWindowWidth(width);
+      setCurrentIndex(0);
 
       if (width < 640) {
         setItemsPerPage(2);
@@ -148,7 +137,7 @@ export default function TechnicalSkills() {
         transition={{ duration: 0.5 }}
         className="text-xl md:text-2xl font-semibold mb-8 md:mb-10 text-center relative"
       >
-        <span className="bg-clip-text text-white">Technical Skills</span>
+        <span className="bg-clip-text text-white">Technical skills</span>
         <div className="absolute w-16 md:w-20 h-1 bg-white bottom-[-8px] md:bottom-[-10px] left-1/2 transform -translate-x-1/2 rounded-full"></div>
       </motion.h3>
 
@@ -246,7 +235,7 @@ export default function TechnicalSkills() {
                 className="text-xs sm:text-sm font-medium text-center"
                 animate={{
                   scale: hoveredSkill === index ? 1.05 : 1,
-                  color: hoveredSkill === index ? skill.color : "",
+                  color: hoveredSkill === index ? skill.color : "currentColor",
                 }}
                 transition={{ duration: 0.2 }}
               >

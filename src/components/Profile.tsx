@@ -1,153 +1,186 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 
-// Star type definition
 type Star = {
   x: number;
   y: number;
   radius: number;
-  velocity: number;
   alpha: number;
-  isShooting: boolean;
-  trail: { x: number; y: number }[];
-  timeToShoot: number;
+  phase: number;
 };
 
-// Star animation component using standard React hooks
+type Meteor = {
+  x: number;
+  y: number;
+  angle: number;
+  speed: number;
+  length: number;
+  age: number;
+  lifetime: number;
+};
+
 const ShootingStarsBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  // Store stars in a ref so they persist across renders
-  const starsRef = useRef<Star[]>([]);
-  const animationRef = useRef<number>(0);
-  const isInitializedRef = useRef(false);
+  const [motionEnabled, setMotionEnabled] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let width = 0;
+    let height = 0;
+    let stars: Star[] = [];
+    let meteors: Meteor[] = [];
+    let frame = 0;
+    let previousTime = 0;
+    let elapsed = 0;
+    let nextMeteor = 0.35;
+    let inView = true;
+    let background: CanvasGradient;
 
-    // Set canvas to full width/height
-    const resizeCanvas = () => {
-      if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-    };
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = background;
+      ctx.fillRect(0, 0, width, height);
 
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    // Initialize stars only once
-    if (!isInitializedRef.current) {
-      isInitializedRef.current = true;
-      const starCount = 100;
-
-      for (let i = 0; i < starCount; i++) {
-        starsRef.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          radius: Math.random() * 1 + 0.5,
-          velocity: Math.random() * 0.05 + 0.02,
-          alpha: Math.random() * 0.5 + 0.5,
-          isShooting: false,
-          trail: [],
-          timeToShoot: Math.random() * 200 + 50,
-        });
-      }
-    }
-
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Dark blue background with gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "#0f172a");
-      gradient.addColorStop(1, "#1e293b");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      starsRef.current.forEach((star) => {
+      for (const star of stars) {
+        // Leave the text area quieter than the edges of the sky.
+        const central = star.x > width * 0.18 && star.x < width * 0.82
+          && star.y > height * 0.28 && star.y < height * 0.72;
+        const twinkle = (motionPreference.matches && !motionEnabled) ? 1 : 0.8 + Math.sin(elapsed * 0.7 + star.phase) * 0.2;
+        ctx.fillStyle = `rgba(210, 226, 255, ${star.alpha * twinkle * (central ? 0.35 : 1)})`;
         ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
-        // Regular star rendering
-        if (!star.isShooting) {
-          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-          ctx.fill();
+      for (const meteor of meteors) {
+        const progress = meteor.age / meteor.lifetime;
+        const opacity = Math.min(1, progress / 0.12) * Math.min(1, (1 - progress) / 0.35);
+        const tailX = meteor.x - Math.cos(meteor.angle) * meteor.length;
+        const tailY = meteor.y - Math.sin(meteor.angle) * meteor.length;
+        const trail = ctx.createLinearGradient(tailX, tailY, meteor.x, meteor.y);
+        trail.addColorStop(0, "rgba(96, 165, 250, 0)");
+        trail.addColorStop(0.65, `rgba(147, 197, 253, ${opacity * 0.45})`);
+        trail.addColorStop(1, `rgba(235, 245, 255, ${opacity})`);
+        ctx.strokeStyle = trail;
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(meteor.x, meteor.y);
+        ctx.stroke();
 
-          // Twinkle effect
-          star.alpha += Math.random() * 0.03 - 0.015;
-          star.alpha = Math.max(0.1, Math.min(1, star.alpha));
-
-          // Randomly decide if a star should start shooting
-          if (Math.random() < 0.0005 && star.timeToShoot <= 0) {
-            star.isShooting = true;
-            star.trail = [];
-          }
-
-          star.timeToShoot--;
-        } else {
-          // Shooting star rendering
-          star.x += 4;
-          star.y += 2;
-
-          // Keep track of trail positions
-          star.trail.push({ x: star.x, y: star.y });
-          if (star.trail.length > 20) {
-            star.trail.shift();
-          }
-
-          // Draw trail
-          if (star.trail.length > 1) {
-            ctx.beginPath();
-            ctx.moveTo(star.trail[0].x, star.trail[0].y);
-
-            for (let i = 1; i < star.trail.length; i++) {
-              ctx.lineTo(star.trail[i].x, star.trail[i].y);
-            }
-
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
-            ctx.lineWidth = star.radius * 2;
-            ctx.lineCap = "round";
-            ctx.stroke();
-          }
-
-          // Draw the star at the front
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.radius * 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(255, 255, 255, 1)";
-          ctx.fill();
-
-          // Reset star when it goes off screen
-          if (star.x > canvas.width || star.y > canvas.height) {
-            star.x = Math.random() * canvas.width * 0.3;
-            star.y = Math.random() * canvas.height * 0.3;
-            star.isShooting = false;
-            star.trail = [];
-            star.timeToShoot = Math.random() * 200 + 100;
-          }
-        }
-      });
-
-      animationRef.current = requestAnimationFrame(animate);
+        const glow = ctx.createRadialGradient(meteor.x, meteor.y, 0, meteor.x, meteor.y, 5);
+        glow.addColorStop(0, `rgba(240, 248, 255, ${opacity})`);
+        glow.addColorStop(0.25, `rgba(186, 220, 255, ${opacity * 0.5})`);
+        glow.addColorStop(1, "rgba(147, 197, 253, 0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(meteor.x - 5, meteor.y - 5, 10, 10);
+      }
     };
 
-    animate();
+    const resize = () => {
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      background = ctx.createLinearGradient(0, 0, width * 0.3, height);
+      background.addColorStop(0, "#0b1222");
+      background.addColorStop(1, "#19263b");
+      stars = Array.from({ length: Math.min(110, Math.max(35, Math.round(width * height / 10000))) }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: 0.4 + Math.random() * 0.9,
+        alpha: 0.2 + Math.random() * 0.45,
+        phase: Math.random() * Math.PI * 2,
+      }));
+      meteors = [];
+      draw();
+    };
+
+    const animate = (time: number) => {
+      const delta = previousTime ? Math.min((time - previousTime) / 1000, 0.05) : 0;
+      previousTime = time;
+      elapsed += delta;
+      nextMeteor -= delta;
+      if (nextMeteor <= 0 && meteors.length < 2) {
+        meteors.push({
+          x: width * (0.08 + Math.random() * 0.55),
+          y: height * (0.08 + Math.random() * 0.18),
+          angle: (28 + Math.random() * 12) * Math.PI / 180,
+          speed: Math.min(width * 0.32, 460) + Math.random() * 80,
+          length: Math.min(width * 0.35, 200 + Math.random() * 80),
+          age: 0,
+          lifetime: 1.7 + Math.random() * 0.4,
+        });
+        nextMeteor = 1.8 + Math.random() * 1.4;
+      }
+      for (const meteor of meteors) {
+        meteor.age += delta;
+        meteor.x += Math.cos(meteor.angle) * meteor.speed * delta;
+        meteor.y += Math.sin(meteor.angle) * meteor.speed * delta;
+      }
+      meteors = meteors.filter((meteor) => meteor.age < meteor.lifetime);
+      draw();
+      frame = requestAnimationFrame(animate);
+    };
+
+    const updatePlayback = () => {
+      cancelAnimationFrame(frame);
+      previousTime = 0;
+      if ((!motionPreference.matches || motionEnabled) && !document.hidden && inView) {
+        frame = requestAnimationFrame(animate);
+      } else if (motionPreference.matches && !motionEnabled) {
+        meteors = [];
+        draw();
+      }
+    };
+
+    resize();
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(canvas);
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      updatePlayback();
+    });
+    visibilityObserver.observe(canvas);
+    document.addEventListener("visibilitychange", updatePlayback);
+    motionPreference.addEventListener("change", updatePlayback);
+    updatePlayback();
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationRef.current);
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      visibilityObserver.disconnect();
+      document.removeEventListener("visibilitychange", updatePlayback);
+      motionPreference.removeEventListener("change", updatePlayback);
     };
-  }, []); // Run once on mount
+  }, [motionEnabled]);
 
   return (
-    <canvas ref={canvasRef} className="absolute inset-0 w-full h-full -z-10" />
+    <>
+    <canvas
+      ref={canvasRef}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 w-full h-full"
+    />
+    <button
+      type="button"
+      onClick={() => setMotionEnabled((enabled) => !enabled)}
+      aria-pressed={motionEnabled}
+      className="absolute bottom-6 right-6 z-20 rounded-md border border-slate-600 bg-slate-900/70 px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
+    >
+      {motionEnabled ? "Use system motion setting" : "Play meteors"}
+    </button>
+    </>
   );
 };
 
@@ -182,7 +215,7 @@ export default function Profile() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-xl md:text-2xl text-blue-300 mb-6"
               >
-                Principal Lead Front-End Developer
+                Principal Lead Frontend Developer
               </motion.h2>
 
               <motion.p
@@ -191,9 +224,9 @@ export default function Profile() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-lg mb-8 text-gray-200"
               >
-                I&apos;m a lead developer from Liverpool with over 10 years of
-                professional experience. A fast learner, self-motivated and
-                problem solver.
+                I help businesses build and improve web and mobile applications.
+                Whether you need a new product, support with an existing app or
+                technical direction for your team, I can help you plan and deliver it.
               </motion.p>
 
               <motion.div
@@ -205,7 +238,7 @@ export default function Profile() {
                   onClick={handleGetInTouch}
                   className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-300"
                 >
-                  Get In Touch
+                  Get in touch
                 </button>
               </motion.div>
             </div>

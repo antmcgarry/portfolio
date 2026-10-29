@@ -54,41 +54,42 @@ export default function Experience() {
 
   const experiences = [
     {
-      year: "2023 - Present",
-      title: "Lead Front-End Software Engineer",
-      company: "Acorn Insurance",
-      description:
-        "Leading a team of front-end developers across multiple projects using React-Native, React, and TypeScript. Spearheaded development of a React-based car insurance quote-and-buy journey, implemented Test-Driven Development, and developed a React Native mobile app. Facilitated cross-functional collaboration between engineers, designers, and stakeholders to deliver technical solutions for complex business cases.",
+        "year": "2023 to present",
+        "title": "Principal Lead Frontend Developer",
+        "company": "Acorn Insurance, Acorn Group",
+        "description": "Previously Lead Front-End Software Engineer. I lead 15+ engineers across seven squads and set frontend standards across the group's insurance brands. I introduced Module Federation, Vite, Vitest and Playwright. I led a React car insurance quote-and-buy journey and introduced a React Native taxi app using Expo and Maestro. I build shared UI components and private npm packages, support Claude and Cursor adoption, and guide colleagues through progression plans and one-to-ones."
     },
     {
-      year: "2022 - 2023",
-      title: "Senior Front-End Software Engineer",
-      company: "Players' Lounge",
-      description:
-        "Developed stable and maintainable apps using React, Next.js, React-Native, and TypeScript. Successfully built an MVP for a Peerless wagering application in just 3 months, enabling users to bet on themselves in the ESports industry. Worked in a cross-functional team both onshore and offshore with designers, engineers, and product owners using Kanban methodology.",
+        "year": "2022 to 2023",
+        "title": "Senior Front-End Software Engineer",
+        "company": "Players' Lounge",
+        "description": "Built React, Next.js and React Native applications in TypeScript. Delivered an MVP for the Peerless esports wagering application in three months. Worked with onshore and offshore engineers, designers and product owners using Kanban, with GraphQL and Apollo in the stack."
     },
     {
-      year: "2021 - 2022",
-      title: "Lead Front-End Software Engineer",
-      company: "Acorn Insurance",
-      description:
-        "Developed multiple stable and maintainable applications using React with TypeScript. Successfully delivered a quote-and-buy journey application for private car insurance. Collaborated closely with engineers, designers, product owners, and client stakeholders to develop technical solutions for complex business requirements.",
+        "year": "2021 to 2022",
+        "title": "Lead Front-End Software Engineer",
+        "company": "Acorn Insurance",
+        "description": "Built and maintained React and TypeScript applications, including a quote-and-buy journey for private car insurance. Worked with engineers, designers, product owners and client stakeholders on technical solutions to business requirements."
     },
     {
-      year: "2019 - 2021",
-      title: "Software Engineer",
-      company: "Fourth Wall Creative",
-      description:
-        "Worked alongside premier league football clubs to develop leading software for distributing and managing ticket sales. Built an application for managing package fulfillment for football club members, allowing clubs to track product distribution and member satisfaction. Used React, TypeScript, and Laravel in a collaborative environment.",
+        "year": "2019 to 2021",
+        "title": "Software Engineer",
+        "company": "Fourth Wall Creative",
+        "description": "Built ticketing and event management software for Premier League football clubs using React, TypeScript and Laravel. Developed a package fulfilment application so clubs could track product distribution to members and record satisfaction."
     },
     {
-      year: "2017 - 2019",
-      title: "Software Engineer",
-      company: "Nova LTD",
-      description:
-        "Delivered innovative digital products for entrepreneurs using React, React-Native, and TypeScript. Successfully developed and released multiple mobile apps to Google Play and Apple App Store, including DLG inventory, DLG Spellbook, UMII, and Thrift. Managed software engineer intern recruitment and supervision, creating training materials to help interns progress.",
+        "year": "2017 to 2019",
+        "title": "Software Engineer",
+        "company": "Nova Ltd",
+        "description": "Built digital products with entrepreneurs and venture teams using React, React Native and TypeScript. Released DLG Inventory, DLG Spellbook, UMII and Thrift on app stores. Managed engineering intern recruitment in 2018 and 2019, then supervised their development and training."
     },
-  ];
+    {
+        "year": "2015 to 2017",
+        "title": "Game Developer",
+        "company": "CyberGaTE, Edge Hill University",
+        "description": "Led the game development team and built a cybersecurity gamification game with Unity 3D and C#."
+    }
+];
 
   return (
     <section
@@ -103,7 +104,7 @@ export default function Experience() {
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-4xl font-bold text-center mb-16"
         >
-          Professional Experience
+          Professional experience
         </motion.h2>
 
         <div className="relative max-w-5xl mx-auto">
