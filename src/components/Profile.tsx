@@ -175,7 +175,6 @@ const ShootingStarsBackground = () => {
     <button
       type="button"
       onClick={() => setMotionEnabled((enabled) => !enabled)}
-      aria-pressed={motionEnabled}
       className="hidden motion-reduce:block absolute bottom-6 right-6 z-20 rounded-md border border-slate-600 bg-slate-900/70 px-3 py-2 text-xs text-slate-300 hover:bg-slate-800 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
     >
       {motionEnabled ? "Use system motion setting" : "Play meteors"}
