@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Anthony McGarry - Portfolio",
   description:
-    "Senior Front-End Developer portfolio showcasing skills and experience",
+    "Anthony McGarry, Principal Lead Frontend Developer at Acorn Group in Merseyside, UK. Leading 15+ engineers across seven squads, working with React, TypeScript and React Native.",
 };
 
 export default function RootLayout({

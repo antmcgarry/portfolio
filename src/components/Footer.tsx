@@ -53,7 +53,7 @@ export default function Footer() {
           >
             <span className="text-2xl font-bold">Anthony McGarry</span>
             <p className="text-sm mt-2 text-gray-400">
-              Lead Front-End Developer
+              Principal Lead Frontend Developer
             </p>
           </motion.div>
 

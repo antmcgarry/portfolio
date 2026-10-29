@@ -85,7 +85,7 @@ export default function ContactMe() {
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-4xl font-bold text-center mb-8"
         >
-          Contact Me
+          Contact me
         </motion.h2>
 
         <motion.p
@@ -97,6 +97,13 @@ export default function ContactMe() {
           Have a project in mind or want to discuss opportunities? Send me a
           message and I&apos;ll get back to you as soon as possible.
         </motion.p>
+
+        <p className="text-center mb-8">
+          <a href="mailto:antjmcgarry@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">
+            antjmcgarry@gmail.com
+          </a>
+          <span className="block mt-2 text-gray-600 dark:text-gray-300">Merseyside, UK</span>
+        </p>
 
         <div className="max-w-md mx-auto">
           <motion.form

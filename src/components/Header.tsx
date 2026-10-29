@@ -62,7 +62,7 @@ export default function Header() {
             onClick={() => scrollToSection("about")}
             className="text-sm transition-colors hover:text-blue-500 dark:hover:text-blue-400"
           >
-            About Me
+            About me
           </button>
           <button
             onClick={() => scrollToSection("experience")}
@@ -74,19 +74,19 @@ export default function Header() {
             onClick={() => scrollToSection("contact")}
             className="text-sm transition-colors hover:text-blue-500 dark:hover:text-blue-400"
           >
-            Contact Me
+            Contact me
           </button>
         </nav>
 
-        {/* Right section: Theme toggle and Resume */}
+        {/* Right section: Theme toggle and Download CV */}
         <div className="flex items-center space-x-4">
           <a
-            href="api/resume"
+            href="/api/resume"
             target="_blank"
             className="hidden md:block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors"
             rel="noopener noreferrer"
           >
-            Resume
+            Download CV
           </a>
 
           {/* Mobile menu button */}
@@ -149,7 +149,7 @@ export default function Header() {
               onClick={() => scrollToSection("about")}
               className="py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              About Me
+              About me
             </button>
             <button
               onClick={() => scrollToSection("experience")}
@@ -161,15 +161,15 @@ export default function Header() {
               onClick={() => scrollToSection("contact")}
               className="py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              Contact Me
+              Contact me
             </button>
             <a
-              href="api/resume"
+              href="/api/resume"
               target="_blank"
               className="py-2 px-3 text-center bg-blue-500 hover:bg-blue-600 text-white rounded-md"
               rel="noopener noreferrer"
             >
-              Resume
+              Download CV
             </a>
           </div>
         </motion.div>

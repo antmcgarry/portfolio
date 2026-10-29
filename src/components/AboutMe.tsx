@@ -45,7 +45,7 @@ export default function AboutMe() {
             variants={childVariants}
             className="text-3xl md:text-4xl font-bold text-center mb-12"
           >
-            About Me
+            About me
           </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
@@ -68,17 +68,29 @@ export default function AboutMe() {
             {/* Bio column */}
             <motion.div variants={childVariants} className="md:col-span-2">
               <p className="text-lg mb-4">
-                I&apos;m a keen front-end developer with over 10 years&apos;
-                experience crafting modern web applications. I specialise in
-                React and TypeScript, building intuitive interfaces that provide
-                brilliant user experiences.
+                I&apos;m Anthony, a frontend developer based in Merseyside. I work
+                with businesses to turn requirements into web and mobile apps,
+                using React, TypeScript and React Native. I can help build a
+                product from scratch, extend an existing application or review
+                the technical approach before development starts.
               </p>
               <p className="text-lg mb-4">
-                My tech journey started with a fascination for interactive
-                applications. Now I turn complex requirements into elegant code,
-                with a focus on performance and accessibility. I&apos;m
-                particularly passionate about architecture and responsive
-                design.
+                My work includes car insurance quote-and-buy journeys, ticketing
+                software for Premier League football clubs and mobile apps
+                released on the app stores. At Players&apos; Lounge, I helped
+                deliver an esports wagering MVP in three months.
+              </p>
+              <p className="text-lg mb-4">
+                As Principal Lead Frontend Developer at Acorn Group, I lead
+                15+ engineers across seven squads. That experience helps me
+                work with your existing team, make architecture decisions and
+                put testing and reusable components in place so your team can
+                maintain and extend the product after launch.
+              </p>
+              <p className="text-lg mb-4">
+                I work with designers, engineers and stakeholders to agree what
+                needs to be built and explain the technical trade-offs. If you
+                have a project in mind, get in touch to discuss what you need.
               </p>
             </motion.div>
           </div>
