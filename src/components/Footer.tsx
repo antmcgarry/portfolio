@@ -46,7 +46,7 @@ export default function Footer() {
       <div className="container mx-auto py-10 px-4">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="mb-6 md:mb-0"
@@ -58,7 +58,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex space-x-6"
@@ -79,7 +79,7 @@ export default function Footer() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-8 pt-6 border-t border-gray-800 text-center text-sm text-gray-500"

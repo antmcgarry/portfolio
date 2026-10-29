@@ -36,8 +36,8 @@ export default function AboutMe() {
     >
       <div className="container mx-auto px-4">
         <motion.div
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
+          initial={false}
+          animate={isInView ? "visible" : undefined}
           variants={staggerVariants}
           className="max-w-4xl mx-auto"
         >
@@ -68,11 +68,10 @@ export default function AboutMe() {
             {/* Bio column */}
             <motion.div variants={childVariants} className="md:col-span-2">
               <p className="text-lg mb-4">
-                I&apos;m Anthony, a frontend developer based in Merseyside. I work
-                with businesses to turn requirements into web and mobile apps,
-                using React, TypeScript and React Native. I can help build a
-                product from scratch, extend an existing application or review
-                the technical approach before development starts.
+                I&apos;m Anthony McGarry, a frontend developer based in
+                Merseyside, UK. I build web and mobile applications using React,
+                TypeScript, Next.js and React Native, working with designers,
+                engineers and stakeholders to turn requirements into products.
               </p>
               <p className="text-lg mb-4">
                 My work includes car insurance quote-and-buy journeys, ticketing
@@ -82,15 +81,15 @@ export default function AboutMe() {
               </p>
               <p className="text-lg mb-4">
                 As Principal Lead Frontend Developer at Acorn Group, I lead
-                15+ engineers across seven squads. That experience helps me
-                work with your existing team, make architecture decisions and
-                put testing and reusable components in place so your team can
-                maintain and extend the product after launch.
+                15+ engineers across seven squads. My work includes frontend
+                architecture, shared UI components and private npm packages,
+                alongside testing with Vitest, Playwright and Maestro.
               </p>
               <p className="text-lg mb-4">
                 I work with designers, engineers and stakeholders to agree what
-                needs to be built and explain the technical trade-offs. If you
-                have a project in mind, get in touch to discuss what you need.
+                needs to be built and explain the technical trade-offs. I also
+                support engineers through mentoring, progression plans and
+                one-to-ones.
               </p>
             </motion.div>
           </div>

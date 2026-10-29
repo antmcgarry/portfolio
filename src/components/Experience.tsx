@@ -34,8 +34,8 @@ const TimelineItem = ({
 
       {/* Content */}
       <motion.div
-        initial={{ opacity: 0, x: isEven ? -20 : 20 }}
-        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0 }}
+        initial={false}
+        animate={isInView ? { opacity: 1, x: 0 } : undefined}
         transition={{ duration: 0.6, delay: index * 0.1 }}
         className={`relative ml-8 md:ml-0 ${isEven ? "md:mr-12" : "md:ml-12"} p-5 rounded-lg shadow-md bg-white dark:bg-gray-800`}
       >
@@ -99,8 +99,8 @@ export default function Experience() {
     >
       <div className="container mx-auto px-4">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
+          initial={false}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-4xl font-bold text-center mb-16"
         >

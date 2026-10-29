@@ -132,7 +132,7 @@ export default function TechnicalSkills() {
   return (
     <div className="mt-16 py-8">
       <motion.h3
-        initial={{ opacity: 0, y: -10 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="text-xl md:text-2xl font-semibold mb-8 md:mb-10 text-center relative"
@@ -194,7 +194,7 @@ export default function TechnicalSkills() {
           ref={carouselRef}
           key={currentIndex}
           variants={containerVariants}
-          initial="hidden"
+          initial={false}
           animate="visible"
         >
           {getCurrentItems().map((skill, index) => (
