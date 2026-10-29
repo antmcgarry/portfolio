@@ -184,15 +184,11 @@ const ShootingStarsBackground = () => {
 };
 
 export default function Profile() {
-  const handleGetInTouch = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <ParallaxProvider>
       <section
         id="profile"
-        className="relative min-h-screen flex flex-col items-center justify-center text-white overflow-hidden"
+        className="relative min-h-screen flex flex-col items-center justify-center bg-slate-950 text-white overflow-hidden"
       >
         <ShootingStarsBackground />
 
@@ -200,7 +196,7 @@ export default function Profile() {
           <Parallax translateY={[-20, 20]}>
             <div className="text-center max-w-3xl mx-auto">
               <motion.h1
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 className="text-4xl md:text-6xl font-bold mb-4"
@@ -209,7 +205,7 @@ export default function Profile() {
               </motion.h1>
 
               <motion.h2
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-xl md:text-2xl text-blue-300 mb-6"
@@ -218,27 +214,28 @@ export default function Profile() {
               </motion.h2>
 
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-lg mb-8 text-gray-200"
               >
-                I help businesses build and improve web and mobile applications.
-                Whether you need a new product, support with an existing app or
-                technical direction for your team, I can help you plan and deliver it.
+                I&apos;m a frontend developer based in Merseyside, UK, working
+                with React, TypeScript, Next.js and React Native. My experience
+                spans web and mobile applications, frontend architecture and
+                engineering leadership.
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <button
-                  onClick={handleGetInTouch}
+                <a
+                  href="#contact"
                   className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-300"
                 >
                   Get in touch
-                </button>
+                </a>
               </motion.div>
             </div>
           </Parallax>

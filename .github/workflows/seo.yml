@@ -1,0 +1,29 @@
+name: SEO validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      # Build-time placeholders only; checks never submit the contact form.
+      RESEND_API_KEY: re_build_only
+      RESEND_FROM: portfolio@example.com
+      RESEND_TO: portfolio@example.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm build
+      - run: pnpm check:seo

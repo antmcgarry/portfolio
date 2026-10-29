@@ -80,8 +80,8 @@ export default function ContactMe() {
     >
       <div className="container mx-auto px-4">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
+          initial={false}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-4xl font-bold text-center mb-8"
         >
@@ -89,13 +89,13 @@ export default function ContactMe() {
         </motion.h2>
 
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
+          initial={false}
+          animate={isInView ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-center max-w-2xl mx-auto mb-12 text-gray-600 dark:text-gray-300"
         >
-          Have a project in mind or want to discuss opportunities? Send me a
-          message and I&apos;ll get back to you as soon as possible.
+          To get in touch about my work or professional experience, send me a
+          message using the form below or connect with me on LinkedIn.
         </motion.p>
 
         <p className="text-center mb-8">
@@ -107,8 +107,8 @@ export default function ContactMe() {
 
         <div className="max-w-md mx-auto">
           <motion.form
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
+            initial={false}
+            animate={isInView ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.6, delay: 0.2 }}
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"

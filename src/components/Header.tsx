@@ -18,17 +18,9 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
-    }
-  };
-
   return (
     <motion.header
-      initial={{ y: -100, opacity: 0 }}
+      initial={false}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={`sticky top-0 z-50 px-4 py-3 backdrop-blur transition-all duration-300 ${
@@ -51,31 +43,35 @@ export default function Header() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <button
-            onClick={() => scrollToSection("profile")}
+        <nav aria-label="Main navigation" className="hidden md:flex items-center space-x-8">
+          <a
+            href="#profile"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-sm transition-colors hover:text-blue-500 dark:hover:text-blue-400"
           >
             Profile
-          </button>
-          <button
-            onClick={() => scrollToSection("about")}
+          </a>
+          <a
+            href="#about"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-sm transition-colors hover:text-blue-500 dark:hover:text-blue-400"
           >
             About me
-          </button>
-          <button
-            onClick={() => scrollToSection("experience")}
+          </a>
+          <a
+            href="#experience"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-sm transition-colors hover:text-blue-500 dark:hover:text-blue-400"
           >
             Experience
-          </button>
-          <button
-            onClick={() => scrollToSection("contact")}
+          </a>
+          <a
+            href="#contact"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-sm transition-colors hover:text-blue-500 dark:hover:text-blue-400"
           >
             Contact me
-          </button>
+          </a>
         </nav>
 
         {/* Right section: Theme toggle and Download CV */}
@@ -94,6 +90,8 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 md:hidden rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {mobileMenuOpen ? (
               <svg
@@ -130,39 +128,53 @@ export default function Header() {
         </div>
       </div>
 
+      <noscript>
+        <nav aria-label="Mobile navigation" className="flex flex-wrap gap-4 py-3 md:hidden">
+          <a href="#profile">Profile</a>
+          <a href="#about">About me</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact me</a>
+        </nav>
+      </noscript>
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
+          id="mobile-menu"
           className="md:hidden bg-white dark:bg-gray-900 mt-2 rounded-lg shadow-lg overflow-hidden"
         >
           <div className="flex flex-col p-4 space-y-3">
-            <button
-              onClick={() => scrollToSection("profile")}
+            <a
+              href="#profile"
+              onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               Profile
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
+            </a>
+            <a
+              href="#about"
+              onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               About me
-            </button>
-            <button
-              onClick={() => scrollToSection("experience")}
+            </a>
+            <a
+              href="#experience"
+              onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               Experience
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
+            </a>
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
               className="py-2 px-3 text-left rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               Contact me
-            </button>
+            </a>
             <a
               href="/api/resume"
               target="_blank"

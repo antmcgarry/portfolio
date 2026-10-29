@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,9 +17,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Anthony McGarry - Portfolio",
-  description:
-    "Anthony McGarry, Principal Lead Frontend Developer at Acorn Group in Merseyside, UK. Leading 15+ engineers across seven squads, working with React, TypeScript and React Native.",
+  metadataBase: new URL(site.url),
+  title: site.title,
+  description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  icons: { icon: "/favicon.ico" },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    siteName: site.name,
+    title: site.title,
+    description: site.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: [{ url: "/opengraph-image", alt: `${site.name} — React, TypeScript and React Native developer` }],
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    other: process.env.BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+      : undefined,
+  },
 };
 
 export default function RootLayout({
@@ -27,15 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Preload critical images */}
-        <link rel="preload" href="/images/me.png" as="image" />
-        <link rel="preload" href="/images/logo.png" as="image" />
-
-        {/* Preconnect to third-party domains */}
-        <link rel="preconnect" href="https://api.emailjs.com" />
-      </head>
+    <html lang="en-GB" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
